@@ -23,7 +23,7 @@ module.exports = function(grunt) {
       closurePath = data.closurePath;
     } else if (process.env.CLOSURE_PATH) {
       closurePath = process.env.CLOSURE_PATH;
-    } else if (fs.existsSync("./node_modules/google-closure-compiler/compiler.jar") {
+    } else if (fs.existsSync("./node_modules/google-closure-compiler/compiler.jar")) {
       closurePath = "./node_modules/google-closure-compiler";
     } else {
       grunt.log.error('' +
@@ -42,7 +42,7 @@ module.exports = function(grunt) {
     } else {
       command = 'java -jar "' + closurePath + '/compiler.jar"';
     }
-    
+
     data.cwd = data.cwd || './';
 
     data.js = grunt.file.expand({cwd: data.cwd}, data.js);
