@@ -23,6 +23,8 @@ module.exports = function(grunt) {
       closurePath = data.closurePath;
     } else if (process.env.CLOSURE_PATH) {
       closurePath = process.env.CLOSURE_PATH;
+    } else if (fs.existsSync("./node_modules/google-closure-compiler/compiler.jar") {
+      closurePath = "./node_modules/google-closure-compiler";
     } else {
       grunt.log.error('' +
           '/!\\'.red +
@@ -33,8 +35,14 @@ module.exports = function(grunt) {
       return false;
     }
 
-    var command = 'java -jar "' + closurePath + '/build/compiler.jar"';
+    var command;
 
+    if (fs.existsSync(closurePath + '/build/compiler.jar')) {
+      command = 'java -jar "' + closurePath + '/build/compiler.jar"';
+    } else {
+      command = 'java -jar "' + closurePath + '/compiler.jar"';
+    }
+    
     data.cwd = data.cwd || './';
 
     data.js = grunt.file.expand({cwd: data.cwd}, data.js);
