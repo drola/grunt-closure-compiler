@@ -16,15 +16,22 @@ module.exports = function(grunt) {
     var closurePath = '',
         reportFile = '',
         data = this.data,
-        done = this.async();
+        done = this.async(),
+        nodeModulePath;
+
+    try {
+      nodeModulePath = path.dirname(require.resolve('google-closure-compiler'));
+    } catch (err) {
+      nodeModulePath = "";
+    }
 
     // Check for closure path.
     if (data.closurePath) {
       closurePath = data.closurePath;
     } else if (process.env.CLOSURE_PATH) {
       closurePath = process.env.CLOSURE_PATH;
-    } else if (fs.existsSync("./node_modules/google-closure-compiler/compiler.jar")) {
-      closurePath = "./node_modules/google-closure-compiler";
+    } else if (fs.existsSync(nodeModulePath + "/compiler.jar")) {
+      closurePath = nodeModulePath;
     } else {
       grunt.log.error('' +
           '/!\\'.red +
